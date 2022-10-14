@@ -2,7 +2,7 @@ const pool = require("../db");
 
 const getAllTask = async (req, res, next) => {
   try {
-    const allTask = await pool.query("SELECT * FROM task");
+    const allTask = await pool.query("SELECT * FROM task ORDER BY id DESC");
     res.json(allTask.rows);
   } catch (error) {
     next(error);
@@ -31,7 +31,7 @@ const createTask = async (req, res, next) => {
 
   try {
     const result = await pool.query(
-      "INSERT INTO task (title, description) VALUES ($1, $2)",
+      "INSERT INTO task (title, description) VALUES ($1, $2) RETURNING *",
       [title, description]
     );
 
